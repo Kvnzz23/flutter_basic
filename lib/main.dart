@@ -1,71 +1,106 @@
 import 'package:flutter/material.dart';
 
-import './widgets/showDialog.dart';
-
-void main() => runApp(const MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Material App',
-      home: Snackbar(),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, home: HomePage());
   }
 }
 
-class Snackbar extends StatelessWidget {
-  const new({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool isHidden = true;
+  TextEditingController emailC = TextEditingController();
+  TextEditingController passC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text("Snackbar", style: TextStyle(color: Colors.white)),
+        title: Text("Text Field", style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Row(
-                  children: [
-                    Icon(Icons.check_circle, color: Colors.white),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        'Data berhasil disimpan ke cloud!',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
+        child: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.all(20),
+          children: [
+            TextField(
+              controller: emailC,
+              autocorrect: false,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 30,
+                  vertical: 20,
                 ),
-                action: SnackBarAction(
-                  label: "Cancel",
+                labelText: "Email",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                prefixIcon: const Icon(Icons.email),
+              ),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              controller: passC,
+              autocorrect: false,
+              keyboardType: TextInputType.text,
+              obscureText: isHidden,
+              textInputAction: TextInputAction.done,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 30,
+                  vertical: 20,
+                ),
+                labelText: "Password",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                prefixIcon: const Icon(Icons.vpn_key),
+                suffixIcon: IconButton(
                   onPressed: () {
-                    print("Berhasil dibatalkan");
+                    setState(() {
+                      isHidden = !isHidden;
+                    });
                   },
-                  textColor: Colors.red,
-                ),
-                backgroundColor: Colors.amber,
-                margin: EdgeInsets.all(20),
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                  icon: Icon(
+                    isHidden ? Icons.visibility_off : Icons.visibility,
+                  ),
                 ),
               ),
-            );
-          },
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-          child: Text(
-            "SHOW SNACKBAR",
-            style: TextStyle(color: Colors.white, fontSize: 18),
-          ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                print(
+                  "anda berhasil login dengan email ${emailC.text} dan password ${passC.text}",
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+              ),
+              child: Text("Login", style: TextStyle(color: Colors.white)),
+            ),
+          ],
         ),
       ),
     );
