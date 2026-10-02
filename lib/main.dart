@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/widgets/bottomNavBar.dart';
 
-import './widgets/bottomSheet.dart';
+import './widgets/drawer.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,6 +12,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: Bottomsheet());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: DrawerWidget());
   }
 }
